@@ -1,20 +1,14 @@
 use json5;
 use serde::de::DeserializeOwned;
-use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::io::Write;
 use std::process::{Command, Stdio};
 use std::str::from_utf8;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct DeepLink {
-    pub link: String,
-    pub title: String,
-}
-
 macro_rules! scripty {
     ($($name:ident),*) => {
         $(
+            #[allow(non_snake_case)]
             pub fn $name<T>() -> Result<T, Box<dyn Error>>
                 where T: DeserializeOwned
             {
@@ -31,12 +25,11 @@ macro_rules! scripty {
                 drop(input); // close input to allow child to finish reading
 
                 let output = child.wait_with_output()?;
-                let out = output.stdout;
-                let r: T = json5::from_str(&from_utf8(&out)?)?;
+                let r: T = json5::from_str(&from_utf8(&output.stdout)?)?;
                 Ok(r)
             }
         )*
     };
 }
 
-scripty!(front_app, chrome, safari);
+scripty!(front_app, com_google_Chrome, com_apple_Safari);

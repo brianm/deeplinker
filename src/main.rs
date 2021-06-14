@@ -1,14 +1,15 @@
 use std::error::Error;
 
+use deeplinker::{FrontApp, DeepLink};
 use deeplinker::scripts;
 fn main() -> Result<(), Box<dyn Error>> {
-    let app_name: String = scripts::front_app()?;
-    println!("{}", app_name);
+    let app: FrontApp = scripts::front_app()?;
+    println!("{:?}", app);
 
-    let output: scripts::DeepLink = match &app_name[..] {
-        "Safari" | "Webkit" => scripts::safari()?,
-        "Google Chrome" | "Google Chrome Canary" | "Chromium" => scripts::chrome()?,
-        _ => scripts::DeepLink {
+    let output: DeepLink = match &app.name[..] {
+        "Safari" | "Webkit" => scripts::com_apple_Safari()?,
+        "Google Chrome" | "Google Chrome Canary" | "Chromium" => scripts::com_google_Chrome()?,
+        _ => DeepLink {
             link: String::from("unknown"),
             title: String::from("unavailable"),
         },

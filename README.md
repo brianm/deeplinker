@@ -12,3 +12,8 @@ Proof of concept, playing around with approaches. Not actually very useful... ye
 Eventually will provide an easy mechanism to add support for different scriptable apps (hence making it OSS, and keeping it really simple.
 
 Currently in rust, because I like rust. May switch to swift if rust starts getting in the way as it is a more natural language for this tool.
+
+
+## Notes
+
+* [Apple Mail](https://apple.stackexchange.com/questions/300437/is-it-possible-to-deep-link-to-a-specific-email-in-mail-app-on-mac-os-x)
