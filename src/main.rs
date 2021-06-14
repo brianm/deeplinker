@@ -5,13 +5,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     let app_name: String = scripts::front_app()?;
     println!("{}",app_name);
 
-    let output = match &app_name[..] {
+    let output: scripts::DeepLink = match &app_name[..] {
         "Safari" | "Webkit" => scripts::safari()?,
         "Google Chrome" | "Google Chrome Canary" | "Chromium" => scripts::chrome()?,
-        _ => String::from("unknown application"),
+        _ => scripts::DeepLink {
+            link: String::from("unknown"),
+            title: String::from("unavailable"),
+        },
     };
 
-    println!("{}", output);
+    println!("{:?}", output);
 
     Ok(())
 }

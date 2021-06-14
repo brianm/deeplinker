@@ -1,10 +1,16 @@
 use std::error::Error;
 use std::io::Write;
 use std::process::{Command, Stdio};
-use serde_json;
 use serde::de::DeserializeOwned;
-use std::io::Cursor;
+use serde::{Serialize, Deserialize};
+use json5;
+use std::str::from_utf8;
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DeepLink {
+    pub link: String,
+    pub title: String
+}
 
 macro_rules! scripty {
     ($($name:ident),*) => {
@@ -26,7 +32,7 @@ macro_rules! scripty {
 
                 let output = child.wait_with_output()?;
                 let out = output.stdout;
-                let r: T = serde_json::from_reader(Cursor::new(out))?;
+                let r: T = json5::from_str(&from_utf8(&out)?)?;
                 Ok(r)
             }
         )*
