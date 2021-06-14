@@ -7,4 +7,4 @@ using terms from application "Safari"
     tell application frontApp to set currentTabTitle to name of front document
 end using terms from
 
-return currentTabUrl & "\n" & currentTabTitle
+return {link: currentTabUrl, title: currentTabTitle}
