@@ -1,21 +1,21 @@
 use std::error::Error;
+use log::debug;
 
-use deeplinker::{FrontApp, DeepLink};
+use deeplinker::{App, DeepLink};
 use deeplinker::scripts;
 fn main() -> Result<(), Box<dyn Error>> {
-    let app: FrontApp = scripts::front_app()?;
-    println!("{:?}", app);
+    let env = env_logger::Env::default().filter_or("DL_LOG", "info");
+    env_logger::init_from_env(env);
 
-    let output: DeepLink = match &app.name[..] {
-        "Safari" | "Webkit" => scripts::com_apple_Safari()?,
-        "Google Chrome" | "Google Chrome Canary" | "Chromium" => scripts::com_google_Chrome()?,
-        _ => DeepLink {
-            link: String::from("unknown"),
-            title: String::from("unavailable"),
-        },
-    };
+    let app: App = scripts::front_app()?;
+    debug!("{:?}", app);
 
-    println!("{:?}", output);
+    let output: DeepLink = app.deep_link()?;
+    debug!("{:?}", output);
+    
+    let txt = output.title.or(app.title).unwrap_or(app.name);
+    let link = output.link.unwrap_or(format!("{}://", app.id));
+    println!("[{}]({})", txt , link);
 
     Ok(())
 }

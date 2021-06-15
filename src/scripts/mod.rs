@@ -1,4 +1,3 @@
-use json5;
 use serde::de::DeserializeOwned;
 use std::error::Error;
 use std::io::Write;
@@ -20,7 +19,7 @@ macro_rules! scripty {
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
                     .spawn()?;
-                let input = child.stdin.as_mut().unwrap();
+                let mut input = child.stdin.take().unwrap();
                 input.write_all(script.as_bytes())?;
                 drop(input); // close input to allow child to finish reading
 
@@ -32,4 +31,10 @@ macro_rules! scripty {
     };
 }
 
-scripty!(front_app, com_google_Chrome, com_apple_Safari);
+scripty!(
+    front_app, 
+    com_google_Chrome, 
+    com_apple_Safari,
+    //com_googlecode_iterm2,
+    com_apple_mail
+);
