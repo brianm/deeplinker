@@ -2,7 +2,6 @@ pub mod scripts;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DeepLink {
     pub link: Option<String>,
@@ -29,7 +28,7 @@ impl App {
         let rs: DeepLink = match &self.id[..] {
             //"com.googlecode.iterm2" => scripts::com_googlecode_iterm2()?,
             "com.apple.Safari" => scripts::com_apple_Safari()?,
-            "com.apple.mail" => scripts::com_apple_mail()?,        
+            "com.apple.mail" => scripts::com_apple_mail()?,
             "com.google.Chrome" | "org.chromium.Chromium" => scripts::com_google_Chrome()?,
             _ => UNKNOWN,
         };

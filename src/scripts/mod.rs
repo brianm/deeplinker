@@ -32,8 +32,8 @@ macro_rules! scripty {
 }
 
 scripty!(
-    front_app, 
-    com_google_Chrome, 
+    front_app,
+    com_google_Chrome,
     com_apple_Safari,
     //com_googlecode_iterm2,
     com_apple_mail
